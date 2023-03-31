@@ -1,25 +1,15 @@
-FROM node:14
+# Dockerfile
+FROM node:6.9
 
-RUN mkdir -p /usr/src/app
-
-RUN apt-get update
-
-RUN apt-get install -y build-essential
-
-# ENV ROOT_URL="http://localhost:3000"
-ENV ROOT_URL="https://claychallengefront-production.up.railway.app"
+ENV METEOR_ALLOW_SUPERUSER=true
+ENV ROOT_URL="http://localhost:3000"
 
 RUN curl "https://install.meteor.com/" | sh
 
+COPY . /usr/src/app
 WORKDIR /usr/src/app
 
-RUN npm install -g meteor
- 
-
-COPY . /usr/src/app
-
 RUN chmod -R 700 /usr/src/app/.meteor/local
-
 RUN meteor npm install
 
 EXPOSE 3000
