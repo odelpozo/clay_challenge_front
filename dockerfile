@@ -1,9 +1,23 @@
-FROM node:14.17.5-alpine
+FROM ubuntu:14 
+# Install
 
-COPY ./build/bundle /bundle
+RUN \ 
+apt-get update -y && \ 
+apt-get upgrade -y && \ 
+apt-get install -yf && \ 
+apt-get install -y curl bzip2 build-essential python git nodejs -yf && \ 
+apt-get install -y npm
 
-RUN (cd /bundle/programs/server && npm i)
+RUN curl -sL https://install.meteor.com | sed s/ — progress-bar/-sL/g | /bin/sh 
 
-USER node
+RUN mkdir -p /app 
 
-CMD node /bundle/main.js
+ADD ./ /app
+
+ADD deployenv/bin /deployenv/bin
+
+RUN chmod +x /deployenv/bin/* & chmod -R 755 /app
+
+EXPOSE 80
+
+CMD [“/deployenv/bin/meteor.sh”]
