@@ -1,28 +1,9 @@
-FROM node:6.9
+FROM node:14.17.5-alpine
 
+COPY ./build/bundle /bundle
 
-ENV METEOR_ALLOW_SUPERUSER=true
-# ENV ROOT_URL="http://localhost:3000"
-ENV ROOT_URL="https://claychallengefront-production.up.railway.app"
+RUN (cd /bundle/programs/server && npm i)
 
-RUN curl "https://install.meteor.com/" | sh
+USER node
 
-RUN PATH="/usr/local/bin/meteor:${PATH}"
-
-ENV PATH="/usr/local/bin/meteor:${PATH}"
-
-RUN meteor --version
-
-RUN npm install --production
-
-COPY . /usr/src/app
-
-WORKDIR /usr/src/app
-
-RUN chmod -R 700 /usr/src/app/.meteor/local
-
-RUN meteor npm install
-
-EXPOSE 3000
-
-CMD ["npm", "start"]
+CMD node /bundle/main.js
