@@ -1,31 +1,26 @@
-FROM base/archlinux:latest 
+FROM node:14
 
+RUN mkdir -p /usr/src/app
+
+RUN apt-get update
+
+RUN apt-get install -y build-essential
+
+# ENV ROOT_URL="http://localhost:3000"
+ENV ROOT_URL="https://claychallengefront-production.up.railway.app"
+
+RUN curl "https://install.meteor.com/" | sh
+
+WORKDIR /usr/src/app
+
+RUN npm install -g meteor
  
-RUN (printf "\nen_US.UTF-8 UTF-8\n" >> /etc/locale.gen) && (/usr/bin/locale-gen)
 
- 
-RUN curl https://install.meteor.com/ | sh
- 
-RUN useradd -m -G users -s /bin/bash meteor
+COPY . /usr/src/app
 
-USER meteor
+RUN chmod -R 700 /usr/src/app/.meteor/local
 
-RUN cd /tmp && meteor --version
-
-ONBUILD USER meteor
-
-ONBUILD RUN cd /home/meteor && mkdir app
-
-ONBUILD COPY . /home/meteor/app/.
-
-ONBUILD USER root
-
-ONBUILD RUN chown -R meteor:meteor /home/meteor/app
-
-ONBUILD RUN rm -rf /home/meteor/app/.meteor/local/*
-
-ONBUILD USER meteor
+RUN meteor npm install
 
 EXPOSE 3000
-
-CMD cd /home/meteor/app && meteor --production
+CMD ["npm", "start"]
