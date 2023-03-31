@@ -41,7 +41,9 @@ WORKDIR $APP_DIR/bundle
 RUN ls -a
 WORKDIR $APP_DIR/
 
-CMD node bundle/main.js --port $PORT
+# CMD node bundle/main.js --port $PORT
+
+CMD ["npm", "start"]
 
 
 
