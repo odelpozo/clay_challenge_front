@@ -1,5 +1,7 @@
 FROM node:16
 
+RUN mkdir -p /usr/src/app
+
 ENV METEOR_ALLOW_SUPERUSER=true
 # ENV ROOT_URL="http://localhost:3000"
 ENV ROOT_URL="https://claychallengefront-production.up.railway.app"
