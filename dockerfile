@@ -1,5 +1,4 @@
-
-FROM node:8.15.1-slim
+FROM node:14
 
 ENV APP_DIR=/usr/src/app \
     NODE_ENV=production \
