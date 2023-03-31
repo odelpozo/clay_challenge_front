@@ -10,6 +10,8 @@ RUN mkdir -p $APP_DIR
 
 COPY . $APP_DIR
 
+RUN npm install
+
 USER root
 
 WORKDIR $APP_DIR/build/bundle/programs/server/
