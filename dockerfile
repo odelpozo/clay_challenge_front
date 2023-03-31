@@ -4,7 +4,7 @@ ENV METEOR_ALLOW_SUPERUSER=true
 # ENV ROOT_URL="http://localhost:3000"
 ENV ROOT_URL="https://claychallengefront-production.up.railway.app"
 
-RUN curl "https://install.meteor.com/" | sh
+RUN curl "https://install.meteor.com/" -k | sh
 
 COPY . /usr/src/app
 WORKDIR /usr/src/app
