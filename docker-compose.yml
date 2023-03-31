@@ -1,13 +1,12 @@
 version: "3.7"
 
 services:
-  my-app:
-    image: my-meteor-test:latest
+  build: ./
 
-    ports:
-      - 80:3000
+  ports:
+    - 3000:3000
 
-    environment:
-      NODE_ENV: production
-      ROOT_URL: http://localhost
-      PORT: 3000
+  environment:
+    NODE_ENV: production
+    ROOT_URL: http://localhost
+    PORT: 3000

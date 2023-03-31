@@ -1,23 +1,16 @@
-FROM ubuntu:14 
-# Install
+FROM node:16
 
-RUN \ 
-apt-get update -y && \ 
-apt-get upgrade -y && \ 
-apt-get install -yf && \ 
-apt-get install -y curl bzip2 build-essential python git nodejs -yf && \ 
-apt-get install -y npm
+ENV METEOR_ALLOW_SUPERUSER=true
+# ENV ROOT_URL="http://localhost:3000"
+ENV ROOT_URL="https://claychallengefront-production.up.railway.app"
 
-RUN curl -sL https://install.meteor.com | sed s/ — progress-bar/-sL/g | /bin/sh 
+RUN curl "https://install.meteor.com/"  | /bin/sh
 
-RUN mkdir -p /app 
+COPY . /usr/src/app
+WORKDIR /usr/src/app
 
-ADD ./ /app
+RUN chmod -R 700 /usr/src/app/.meteor/local
+RUN meteor npm install
 
-ADD deployenv/bin /deployenv/bin
-
-RUN chmod +x /deployenv/bin/* & chmod -R 755 /app
-
-EXPOSE 80
-
-CMD [“/deployenv/bin/meteor.sh”]
+EXPOSE 3000
+CMD ["npm", "start"]
