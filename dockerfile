@@ -42,7 +42,7 @@ WORKDIR $APP_DIR/
 
 # CMD node bundle/main.js --port $PORT
 
-CMD ["npm", "start"]
+CMD ["npm", "start:dev"]
 
 
 
